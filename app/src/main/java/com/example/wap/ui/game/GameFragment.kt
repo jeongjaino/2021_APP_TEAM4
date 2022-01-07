@@ -42,6 +42,7 @@ class GameFragment : Fragment() {
         gameViewModel = ViewModelProvider(this)[GameViewModel::class.java]
 
         gameViewModel.level.observe(viewLifecycleOwner, Observer {
+            Log.d("Tag","hello")
             gameBinding.petLevelTextView.text = "Lv ${it.level}"
             gameBinding.gameProgressbar.progress = it.exp
         })
