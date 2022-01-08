@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
 
         with(binding) {
             viewPager.adapter = pagerAdapter
-            val titles = listOf("to-do", "game")
+            val titles = listOf("할 일", "캐릭터")
             TabLayoutMediator(tabLayout, viewPager) { tab, position ->
                 tab.text = titles.get(position)
             }.attach()

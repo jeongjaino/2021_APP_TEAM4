@@ -34,8 +34,8 @@
 
     <ImageView
         android:id="@+id/petImageView"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:background="@drawable/pet_walk_animation"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -47,7 +47,7 @@
         android:id="@+id/groundView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@color/teal_700"
+        android:background="#46AF50"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
