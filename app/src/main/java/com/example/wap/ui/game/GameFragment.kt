@@ -42,7 +42,6 @@ class GameFragment : Fragment() {
         gameViewModel = ViewModelProvider(this)[GameViewModel::class.java]
 
         gameViewModel.level.observe(viewLifecycleOwner, Observer {
-            Log.d("Tag","hello")
             gameBinding.petLevelTextView.text = "Lv ${it.level}"
             gameBinding.gameProgressbar.progress = it.exp
         })
@@ -50,15 +49,11 @@ class GameFragment : Fragment() {
         return gameBinding.root
     }
 
-    override fun onStart() {
-        super.onStart()
-        Log.d("GameFragment", "GameFragment시작")
-    }
-
     override fun onResume() {
         super.onResume()
         gameViewModel.loadLevel()
     }
+
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
