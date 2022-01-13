@@ -1,9 +1,9 @@
 package com.example.wap.di
 
-import com.example.wap.repository.GameRepository
-import com.example.wap.repository.GameRepositoryImpl
-import com.example.wap.repository.TodoRepository
-import com.example.wap.repository.TodoRepositoryImpl
+import com.example.wap.model.game.GameRepository
+import com.example.wap.model.game.GameRepositoryImpl
+import com.example.wap.model.todo.TodoRepository
+import com.example.wap.model.todo.TodoRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,7 +17,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideTodoRepository() : TodoRepository{
+    fun provideTodoRepository() : TodoRepository {
         return TodoRepositoryImpl()
     }
 
