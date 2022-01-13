@@ -1,6 +1,4 @@
 package com.example.wap.model.game
-
-import com.example.wap.model.game.GameData
 import kotlinx.coroutines.flow.Flow
 
 interface GameRepository {

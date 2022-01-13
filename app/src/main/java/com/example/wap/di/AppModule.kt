@@ -1,5 +1,9 @@
 package com.example.wap.di
 
+import android.app.Application
+import androidx.room.Database
+import androidx.room.Room
+import com.example.wap.model.App4Database
 import com.example.wap.model.game.GameRepository
 import com.example.wap.model.game.GameRepositoryImpl
 import com.example.wap.model.todo.TodoRepository
@@ -17,13 +21,23 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideTodoRepository() : TodoRepository {
-        return TodoRepositoryImpl()
+    fun provideDatabase(app: Application): App4Database{
+        return Room.databaseBuilder(
+            app,
+            App4Database::class.java,
+            "app4_db"
+        ).build()
     }
 
     @Provides
     @Singleton
-    fun provideGameRepository() : GameRepository {
-        return GameRepositoryImpl()
+    fun provideTodoRepository(db: App4Database) : TodoRepository {
+        return TodoRepositoryImpl(db.todoDao)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGameRepository(db: App4Database) : GameRepository {
+        return GameRepositoryImpl(db.gameDao)
     }
 }

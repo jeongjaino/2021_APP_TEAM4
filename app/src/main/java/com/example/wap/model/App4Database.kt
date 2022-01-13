@@ -12,9 +12,9 @@ import com.example.wap.model.todo.TodoData
     entities = [GameData::class, TodoData::class],
     version = 1
 )
-abstract class Database: RoomDatabase(){
+abstract class App4Database: RoomDatabase(){
 
     abstract val todoDao: TodoDao
 
-    abstract val gameData: GameDao
+    abstract val gameDao: GameDao
 }
