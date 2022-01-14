@@ -20,17 +20,19 @@ class GameViewModel @Inject constructor(
     val level: LiveData<GameData> get() = _level
 
     init{
-        loadLevel()
+        viewModelScope.launch {
+            gameRepository.getCharacterById()
+        }
     }
 
-    fun loadLevel(){
+    fun loadCharacter(id: Int){
         viewModelScope.launch {
-            _level.value =  gameRepository.loadLevel()
+            _level.value = gameRepository.getCharacterById(id)
         }
     }
     fun updateLevel() {
         viewModelScope.launch {
-            gameRepository.updateLevel(levelUp())
+            gameRepository.updateCharacter(levelUp())
         }
     }
 

@@ -51,7 +51,7 @@ class GameFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        gameViewModel.loadLevel()
+        //gameViewModel.loadLevel()
     }
 
     @SuppressLint("ClickableViewAccessibility")
