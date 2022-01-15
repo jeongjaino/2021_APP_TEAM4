@@ -1,23 +1,22 @@
 package com.example.wap.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
 import androidx.recyclerview.widget.RecyclerView
 import com.example.wap.R
-import com.example.wap.data.MyToDoList
-import com.example.wap.databinding.ListViewBinding
+import com.example.wap.databinding.ItemTodoListBinding
+import com.example.wap.model.todo.TodoData
 
 class ListAdapter(
-    private val listener: onCheckedChangeListener,
-    //MyToDoList List를 받을 변수 dataset과
-    //각종 앱 관련 정보를 받을 context 객체를 생성자에 선언
-    private val dataset: List<MyToDoList>,
+    private val listener: OnCheckedChangeListener,
+    private val clickListener: OnClickListener,
+    private val dataset: List<TodoData>,
 ) : RecyclerView.Adapter<ListAdapter.ListViewHolder>() {
-    //RecyclerView의 새 뷰 홀더를 만들기 위해 레이아웃 관리자가 호출
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
        val binding =
-           ListViewBinding.inflate(LayoutInflater.from(parent.context),parent, false)
+           ItemTodoListBinding.inflate(LayoutInflater.from(parent.context),parent, false)
 
         return ListViewHolder(binding)
     }
@@ -32,29 +31,44 @@ class ListAdapter(
     override fun getItemCount(): Int {
         return dataset.size
     }
-    inner class ListViewHolder(val binding: ListViewBinding) : RecyclerView.ViewHolder(binding.root),
-    CompoundButton.OnCheckedChangeListener{
-        lateinit var currentTodo: MyToDoList
-        fun setTodo(todo: MyToDoList){
-            binding.toDo.text = todo.toDo
-            binding.deadline.text = todo.deadline
+    inner class ListViewHolder(
+        private val binding: ItemTodoListBinding
+        ) : RecyclerView.ViewHolder(binding.root),
+    CompoundButton.OnCheckedChangeListener, View.OnClickListener{
+        lateinit var currentTodo: TodoData
+        fun setTodo(todo: TodoData){
+            binding.itemTodo.text = todo.toDo
+            binding.itemDeadLine.text = todo.deadline
             this.currentTodo = todo
         }
         //val checking: SwitchCompat = binding.checking
         init{
-            binding.checking.setOnCheckedChangeListener(this)
+            binding.itemCheckBox.setOnCheckedChangeListener(this)
+            binding.todoItemCardView.setOnClickListener(this)
         }
 
         override fun onCheckedChanged(view: CompoundButton?, isChecked: Boolean) {
             val position: Int = adapterPosition
             if(position != RecyclerView.NO_POSITION){
                 when(view?.id){
-                    R.id.checking -> listener.onCheck(position, isChecked, currentTodo)
+                    R.id.item_checkBox -> listener.onCheck(position, isChecked, currentTodo)
+                }
+            }
+        }
+
+        override fun onClick(view: View?) {
+            val position: Int = adapterPosition
+            if(position != RecyclerView.NO_POSITION){
+                when(view?.id){
+                    R.id.todo_item_cardView -> clickListener.onCardClick(position+1)
                 }
             }
         }
     }
-    interface onCheckedChangeListener{
-        fun onCheck(position: Int, isChecked: Boolean, todo: MyToDoList)
+    interface OnCheckedChangeListener{
+        fun onCheck(position: Int, isChecked: Boolean, todo: TodoData)
+    }
+    interface OnClickListener{
+        fun onCardClick(id: Int)
     }
 }

@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_listFragment_to_gameFragment"
             app:destination="@id/gameFragment" />
+        <action
+            android:id="@+id/action_listFragment_to_addEditFragment"
+            app:destination="@id/addEditFragment" />
     </fragment>
 
     <fragment
@@ -20,4 +23,16 @@
         android:name="com.example.wap.ui.game.GameFragment"
         android:label="fragment_game"
         tools:layout="@layout/fragment_game" />
+    <fragment
+        android:id="@+id/addEditFragment"
+        android:name="com.example.wap.ui.add_edit_todo.AddEditFragment"
+        android:label="fragment_add_edit"
+        tools:layout="@layout/fragment_add_edit" >
+        <action
+            android:id="@+id/action_addEditFragment_to_listFragment"
+            app:destination="@id/listFragment" />
+        <argument
+            android:name="position"
+            app:argType="integer" />
+    </fragment>
 </navigation>

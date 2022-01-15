@@ -18,4 +18,6 @@ interface TodoDao{
     @Query("SELECT * FROM TodoData")
     fun getTodos(): Flow<List<TodoData>>
 
+    @Update
+    suspend fun updateTodo(todo: TodoData)
 }

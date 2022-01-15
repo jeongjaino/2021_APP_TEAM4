@@ -1,14 +1,12 @@
 package com.example.wap.ui.todo_list
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.example.wap.data.MyToDoList
-import com.example.wap.repository.TodoRepository
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
+import androidx.lifecycle.*
+import com.example.wap.model.game.GameData
+import com.example.wap.model.todo.TodoData
+import com.example.wap.model.todo.TodoRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -17,37 +15,29 @@ class TodoListViewModel @Inject constructor(
     private val todoRepository: TodoRepository
 ): ViewModel() {
 
-    private val list = mutableListOf<MyToDoList>()
+    val todo = MutableLiveData<TodoData>()
 
-    private val _todoList = MutableLiveData<List<MyToDoList>>()
+    private val _todoList = MutableLiveData<List<TodoData>>()
 
-    val todoList : LiveData<List<MyToDoList>> = _todoList
+    val todoList : LiveData<List<TodoData>> = _todoList
 
     init{
-        _todoList.value = list
+        viewModelScope.launch {
+            todoRepository.getTodos().collect { items ->
+                _todoList.value = items
+            }
+        }
     }
-    fun insertTodo(todo: MyToDoList){
+
+    fun insertTodo(todo: TodoData){
         viewModelScope.launch {
             todoRepository.insertTodo(todo)
-            list.add(todo)
-            _todoList.value = list
         }
     }
 
-    fun getTodos(){
-        viewModelScope.launch{
-            for(i in 1..todoRepository.loadTodo().size){
-                list.add(todoRepository.loadTodo()[i])
-            }
-            _todoList.value = list
-        }
-    }
-
-    fun deleteTodo(position: Int){
+    fun deleteTodo(todo: TodoData){
         viewModelScope.launch {
-            todoRepository.deleteTodo(list[position])
-            list.removeAt(position)
-            _todoList.value = list
+            todoRepository.deleteTodo(todo)
         }
     }
 }

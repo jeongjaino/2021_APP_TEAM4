@@ -12,4 +12,6 @@ interface TodoRepository {
 
     fun getTodos(): Flow<List<TodoData>>
 
+    suspend fun updateTodo(todo: TodoData)
+
 }

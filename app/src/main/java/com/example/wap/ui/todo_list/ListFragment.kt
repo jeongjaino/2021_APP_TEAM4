@@ -6,12 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import androidx.navigation.NavDirections
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -31,8 +33,6 @@ class ListFragment : Fragment(), ListAdapter.OnCheckedChangeListener, ListAdapte
     private lateinit var recyclerView: RecyclerView
 
      lateinit var gameViewModel: GameViewModel
-
-    // lateinit var todoListViewModel: TodoListViewModel
 
      private val todoListViewModel: TodoListViewModel by viewModels()
 
@@ -56,6 +56,9 @@ class ListFragment : Fragment(), ListAdapter.OnCheckedChangeListener, ListAdapte
                 val todoList = TodoData(todoText, deadLine, false)
                 saveTodo(todoList)
             }
+            else{
+                Toast.makeText(context,"텍스트를 입력하세요",Toast.LENGTH_SHORT).show()
+            }
         }
         return binding.root
     }
@@ -67,22 +70,20 @@ class ListFragment : Fragment(), ListAdapter.OnCheckedChangeListener, ListAdapte
     }
     //checkBox check
     override fun onCheck(position: Int, isChecked: Boolean, todo: TodoData) {
-        val directions: NavDirections = ListFragmentDirections.actionListFragmentToGameFragment()
-        view!!.findNavController().navigate(directions)
-    // gameViewModel.updateLevel()
-        //todoListViewModel.deleteTodo(todo)
+        // gameViewModel.updateLevel()
+        todoListViewModel.deleteTodo(todo)
         //투두 제거
         //완료 투두에 추가
     }
 
-    override fun onCardClick(id: Int) {
-
+    override fun onCardClick(position: Int) {
+        val directions: NavDirections = ListFragmentDirections.actionListFragmentToAddEditFragment(position = position)
+        view!!.findNavController().navigate(directions)
     }
 
     private fun connectRecyclerView() {
-        recyclerView = binding.recyclerView
+        recyclerView = binding.listRecyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.setHasFixedSize(true)
     }
-
 }
