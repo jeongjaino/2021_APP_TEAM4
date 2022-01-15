@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/listFragment"
+        android:icon="@drawable/bell"
+        android:title="할 일 " />
+    <item
+        android:id="@+id/gameFragment"
+        android:icon="@drawable/bell"
+        android:title="캐릭터" />
+</menu>

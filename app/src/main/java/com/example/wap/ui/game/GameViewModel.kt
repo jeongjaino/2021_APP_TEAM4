@@ -21,7 +21,7 @@ class GameViewModel @Inject constructor(
 
     init{
         viewModelScope.launch {
-            gameRepository.getCharacterById()
+
         }
     }
 
