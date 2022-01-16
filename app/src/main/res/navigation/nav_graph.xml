@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_listFragment_to_addEditFragment"
             app:destination="@id/addEditFragment" />
+        <action
+            android:id="@+id/action_listFragment_to_completedListFragment"
+            app:destination="@id/completedListFragment" />
     </fragment>
 
     <fragment
@@ -34,5 +37,14 @@
         <argument
             android:name="position"
             app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/completedListFragment"
+        android:name="com.example.wap.ui.completed_todo_list.CompletedListFragment"
+        android:label="fragment_completed_list"
+        tools:layout="@layout/fragment_completed_list" >
+        <action
+            android:id="@+id/action_completedListFragment_to_listFragment"
+            app:destination="@id/listFragment" />
     </fragment>
 </navigation>

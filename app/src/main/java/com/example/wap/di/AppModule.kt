@@ -2,7 +2,10 @@ package com.example.wap.di
 
 import android.app.Application
 import androidx.room.Room
+import com.example.wap.App4
 import com.example.wap.model.App4Database
+import com.example.wap.model.completed.CompletedRepository
+import com.example.wap.model.completed.CompletedRepositoryImpl
 import com.example.wap.model.game.GameRepository
 import com.example.wap.model.game.GameRepositoryImpl
 import com.example.wap.model.todo.TodoRepository
@@ -38,5 +41,12 @@ object AppModule {
     @Singleton
     fun provideGameRepository(db: App4Database) : GameRepository {
         return GameRepositoryImpl(db.gameDao)
+    }
+
+
+    @Provides
+    @Singleton
+    fun provideCompletedRepository(db: App4Database): CompletedRepository{
+        return CompletedRepositoryImpl(db.completedDao)
     }
 }

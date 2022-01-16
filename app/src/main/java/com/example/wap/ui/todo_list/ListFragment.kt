@@ -6,24 +6,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.asLiveData
 import androidx.navigation.NavDirections
-import androidx.navigation.Navigation
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.FragmentNavigatorExtras
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.wap.R
 import com.example.wap.adapter.ListAdapter
 import com.example.wap.model.todo.TodoData
 import com.example.wap.databinding.FragmentListBinding
+import com.example.wap.model.completed.CompletedTodo
+import com.example.wap.ui.completed_todo_list.CompletedViewModel
 import com.example.wap.ui.game.GameViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
+import java.text.SimpleDateFormat
 import java.util.*
 
 @AndroidEntryPoint
@@ -33,6 +29,8 @@ class ListFragment : Fragment(), ListAdapter.OnCheckedChangeListener, ListAdapte
     private lateinit var recyclerView: RecyclerView
 
      lateinit var gameViewModel: GameViewModel
+
+     lateinit var completedViewModel: CompletedViewModel
 
      private val todoListViewModel: TodoListViewModel by viewModels()
 
@@ -44,6 +42,7 @@ class ListFragment : Fragment(), ListAdapter.OnCheckedChangeListener, ListAdapte
         connectRecyclerView()
 
         gameViewModel = ViewModelProvider(this)[GameViewModel::class.java]
+        completedViewModel = ViewModelProvider(this)[CompletedViewModel::class.java]
 
         todoListViewModel.todoList.observe(this){ value ->
             recyclerView.adapter = ListAdapter(this@ListFragment,this,value)
@@ -60,6 +59,11 @@ class ListFragment : Fragment(), ListAdapter.OnCheckedChangeListener, ListAdapte
                 Toast.makeText(context,"텍스트를 입력하세요",Toast.LENGTH_SHORT).show()
             }
         }
+
+        binding.navCompletedText.setOnClickListener{
+            val directions: NavDirections = ListFragmentDirections.actionListFragmentToCompletedListFragment()
+            view!!.findNavController().navigate(directions)
+        }
         return binding.root
     }
     private fun saveTodo(todo: TodoData) {
@@ -71,9 +75,10 @@ class ListFragment : Fragment(), ListAdapter.OnCheckedChangeListener, ListAdapte
     //checkBox check
     override fun onCheck(position: Int, isChecked: Boolean, todo: TodoData) {
         // gameViewModel.updateLevel()
+
+        val completedTime = SimpleDateFormat("MM월 dd일").format(System.currentTimeMillis())
         todoListViewModel.deleteTodo(todo)
-        //투두 제거
-        //완료 투두에 추가
+        completedViewModel.insertTodo(CompletedTodo(todo.toDo, todo.deadline, completedTime))
     }
 
     override fun onCardClick(position: Int) {

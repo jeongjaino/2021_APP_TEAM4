@@ -15,8 +15,6 @@ class TodoListViewModel @Inject constructor(
     private val todoRepository: TodoRepository
 ): ViewModel() {
 
-    val todo = MutableLiveData<TodoData>()
-
     private val _todoList = MutableLiveData<List<TodoData>>()
 
     val todoList : LiveData<List<TodoData>> = _todoList

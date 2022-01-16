@@ -14,6 +14,7 @@ class ListAdapter(
     private val clickListener: OnClickListener,
     private val dataset: List<TodoData>,
 ) : RecyclerView.Adapter<ListAdapter.ListViewHolder>() {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
        val binding =
            ItemTodoListBinding.inflate(LayoutInflater.from(parent.context),parent, false)
@@ -21,27 +22,27 @@ class ListAdapter(
         return ListViewHolder(binding)
     }
 
-    //목록 항목 뷰의 콘텐츠를 바꾸기 위해 레이아웃 관리자가 호출
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         val list = dataset[position]
         holder.setTodo(list)
     }
 
-    //데이터 세트의 크기를 반환
     override fun getItemCount(): Int {
         return dataset.size
     }
+
     inner class ListViewHolder(
         private val binding: ItemTodoListBinding
         ) : RecyclerView.ViewHolder(binding.root),
     CompoundButton.OnCheckedChangeListener, View.OnClickListener{
+
         lateinit var currentTodo: TodoData
         fun setTodo(todo: TodoData){
             binding.itemTodo.text = todo.toDo
             binding.itemDeadLine.text = todo.deadline
             this.currentTodo = todo
         }
-        //val checking: SwitchCompat = binding.checking
+
         init{
             binding.itemCheckBox.setOnCheckedChangeListener(this)
             binding.todoItemCardView.setOnClickListener(this)
