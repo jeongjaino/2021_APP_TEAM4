@@ -34,6 +34,7 @@ class AddEditFragment : DialogFragment() {
         addEditViewModel.todoList.observe(this){
             it?.let{
                 binding.todoEditText.setText(it.toDo)
+                binding.addEditDeadline.text = it.deadline
             }
         }
 
@@ -47,5 +48,4 @@ class AddEditFragment : DialogFragment() {
         }
         return binding.root
     }
-
 }

@@ -40,6 +40,7 @@ class ListFragment : Fragment(), ListAdapter.OnCheckedChangeListener, ListAdapte
     ): View? {
 
         connectRecyclerView()
+        uiUpdate(falsed)
 
         gameViewModel = ViewModelProvider(this)[GameViewModel::class.java]
         completedViewModel = ViewModelProvider(this)[CompletedViewModel::class.java]
@@ -48,7 +49,7 @@ class ListFragment : Fragment(), ListAdapter.OnCheckedChangeListener, ListAdapte
             recyclerView.adapter = ListAdapter(this@ListFragment,this,value)
         }
 
-        binding.addButton.setOnClickListener{
+        binding.doneButton.setOnClickListener{
             if(binding.addTodo.text.isNotEmpty() && binding.addDeadline.text.isNotEmpty()){
                 val deadLine = binding.addDeadline.text.toString()
                 val todoText = binding.addTodo.text.toString()
@@ -58,6 +59,10 @@ class ListFragment : Fragment(), ListAdapter.OnCheckedChangeListener, ListAdapte
             else{
                 Toast.makeText(context,"텍스트를 입력하세요",Toast.LENGTH_SHORT).show()
             }
+            uiUpdate(false)
+        }
+        binding.addButton.setOnClickListener{
+            uiUpdate(true)
         }
 
         binding.navCompletedText.setOnClickListener{
@@ -67,6 +72,7 @@ class ListFragment : Fragment(), ListAdapter.OnCheckedChangeListener, ListAdapte
         return binding.root
     }
     private fun saveTodo(todo: TodoData) {
+
         todoListViewModel.insertTodo(todo)
         Toast.makeText(requireContext(), "할 일이 추가되었습니다!", Toast.LENGTH_LONG).show()
         binding.addDeadline.text = null
@@ -90,5 +96,15 @@ class ListFragment : Fragment(), ListAdapter.OnCheckedChangeListener, ListAdapte
         recyclerView = binding.listRecyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.setHasFixedSize(true)
+    }
+    private fun uiUpdate(isGone: Boolean){
+        if(isGone){
+            binding.addButton.visibility = View.GONE
+            binding.todoCardView.visibility = View.VISIBLE
+        }
+        else{
+            binding.addButton.visibility = View.VISIBLE
+            binding.todoCardView.visibility = View.GONE
+        }
     }
 }

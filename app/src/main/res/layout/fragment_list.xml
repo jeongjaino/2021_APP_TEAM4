@@ -8,14 +8,64 @@
     tools:context=".ui.todo_list.ListFragment">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
+        android:id="@+id/todo_cardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardBackgroundColor="#F8FAFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/list_recyclerView">
+        tools:visibility="gone">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/done_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:src="@drawable/ic_baseline_edit_24"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:layout_editor_absoluteY="10dp" />
+
+            <EditText
+                android:id="@+id/add_todo"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_weight="5"
+                android:hint="할 일"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/add_deadline"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/add_deadline"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_weight="3"
+                android:hint="yyyy.mm.dd"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/add_todo"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="#F8FAFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -28,8 +78,8 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
                 android:gravity="center"
-                android:textStyle="bold"
                 android:text="완료된 모든 작업 확인"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -40,62 +90,25 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list_recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:clipToPadding="false"
         android:padding="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/cardView"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
-        android:layout_width="match_parent"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/add_button"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/list_recyclerView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.139">
-
-        <EditText
-            android:id="@+id/add_todo"
-            android:layout_width="0dp"
-            android:layout_height="60dp"
-            android:layout_weight="5"
-            android:hint="할 일"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/add_deadline"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <EditText
-            android:id="@+id/add_deadline"
-            android:layout_width="0dp"
-            android:layout_height="60dp"
-            android:layout_weight="3"
-            android:hint="yyyy.mm.dd"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/add_button"
-            app:layout_constraintStart_toEndOf="@+id/add_todo"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/add_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:src="@drawable/ic_baseline_add_24"
-            app:backgroundTint="#00BCD4"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="30dp"
+        android:clickable="true"
+        android:src="@drawable/ic_baseline_add_24"
+        app:backgroundTint="#00BCD4"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
