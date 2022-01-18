@@ -62,9 +62,8 @@ class ListAdapter(
             val position: Int = adapterPosition
             if(position != RecyclerView.NO_POSITION){
                 when(view?.id){
-                    R.id.todo_item_cardView -> clickListener.onCardClick(position)
+                    R.id.todo_item_cardView -> clickListener.onCardClick(position+1)
                 }
-                Log.d("tag adapter position", "${position}")
             }
         }
     }

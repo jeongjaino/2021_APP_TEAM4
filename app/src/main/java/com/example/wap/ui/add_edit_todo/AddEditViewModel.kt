@@ -1,6 +1,5 @@
 package com.example.wap.ui.add_edit_todo
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -22,12 +21,12 @@ class AddEditViewModel @Inject constructor(
 
     fun getTodoById(position: Int){
         viewModelScope.launch {
-            Log.d("tag",position.toString())
             todoRepository.getTodoById(position)?.let{
                 _todoList.value = it
             }
         }
     }
+
     fun updateTodo(todo: TodoData){
         viewModelScope.launch {
             todoRepository.updateTodo(todo)
