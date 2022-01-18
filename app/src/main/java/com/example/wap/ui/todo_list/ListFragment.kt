@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.wap.adapter.ListAdapter
 import com.example.wap.model.todo.TodoData
 import com.example.wap.databinding.FragmentListBinding
+import com.example.wap.dialog.CalendarDialog
 import com.example.wap.model.completed.CompletedTodo
 import com.example.wap.ui.completed_todo_list.CompletedViewModel
 import com.example.wap.ui.game.GameViewModel
@@ -34,13 +35,15 @@ class ListFragment : Fragment(), ListAdapter.OnCheckedChangeListener, ListAdapte
 
      private val todoListViewModel: TodoListViewModel by viewModels()
 
+    private var deadLine = SimpleDateFormat("yyyy/MM/dd").format(System.currentTimeMillis())
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
         connectRecyclerView()
-        uiUpdate(falsed)
+        uiUpdate(false)
 
         gameViewModel = ViewModelProvider(this)[GameViewModel::class.java]
         completedViewModel = ViewModelProvider(this)[CompletedViewModel::class.java]
@@ -50,8 +53,7 @@ class ListFragment : Fragment(), ListAdapter.OnCheckedChangeListener, ListAdapte
         }
 
         binding.doneButton.setOnClickListener{
-            if(binding.addTodo.text.isNotEmpty() && binding.addDeadline.text.isNotEmpty()){
-                val deadLine = binding.addDeadline.text.toString()
+            if(binding.addTodo.text.isNotEmpty()){
                 val todoText = binding.addTodo.text.toString()
                 val todoList = TodoData(todoText, deadLine, false)
                 saveTodo(todoList)
@@ -65,6 +67,10 @@ class ListFragment : Fragment(), ListAdapter.OnCheckedChangeListener, ListAdapte
             uiUpdate(true)
         }
 
+        binding.calendarButton.setOnClickListener{
+            dialogButtonClick()
+        }
+
         binding.navCompletedText.setOnClickListener{
             val directions: NavDirections = ListFragmentDirections.actionListFragmentToCompletedListFragment()
             view!!.findNavController().navigate(directions)
@@ -72,10 +78,8 @@ class ListFragment : Fragment(), ListAdapter.OnCheckedChangeListener, ListAdapte
         return binding.root
     }
     private fun saveTodo(todo: TodoData) {
-
         todoListViewModel.insertTodo(todo)
         Toast.makeText(requireContext(), "할 일이 추가되었습니다!", Toast.LENGTH_LONG).show()
-        binding.addDeadline.text = null
         binding.addTodo.text = null
     }
     //checkBox check
@@ -106,5 +110,15 @@ class ListFragment : Fragment(), ListAdapter.OnCheckedChangeListener, ListAdapte
             binding.addButton.visibility = View.VISIBLE
             binding.todoCardView.visibility = View.GONE
         }
+    }
+    //dialog positive button click
+    private fun dialogButtonClick(){
+        val dialog = CalendarDialog()
+        dialog.setOnListener(object: CalendarDialog.CalendarDialogListener{
+            override fun onPositiveClick(dialogDeadLine: String) {
+                deadLine = dialogDeadLine
+            }
+        })
+        dialog.show(activity!!.supportFragmentManager, "CalendarDialog")
     }
 }
