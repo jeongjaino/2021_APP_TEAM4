@@ -1,5 +1,6 @@
 package com.example.wap.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -61,8 +62,9 @@ class ListAdapter(
             val position: Int = adapterPosition
             if(position != RecyclerView.NO_POSITION){
                 when(view?.id){
-                    R.id.todo_item_cardView -> clickListener.onCardClick(position+1)
+                    R.id.todo_item_cardView -> clickListener.onCardClick(position)
                 }
+                Log.d("tag adapter position", "${position}")
             }
         }
     }
