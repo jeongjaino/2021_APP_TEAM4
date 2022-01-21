@@ -90,4 +90,9 @@ class AddTodoFragment : DialogFragment() {
         val dialog = TodoLevelDialog()
         dialog.show(activity!!.supportFragmentManager, "todo_level_dialog")
     }
+
+    override fun onPause() {
+        super.onPause()
+        dialogViewModel.initValues()
+    }
 }

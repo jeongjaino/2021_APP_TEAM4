@@ -95,6 +95,16 @@ class EditFragment : DialogFragment() {
             .into(binding.editFlag)
     }
 
+    private fun showCalendarDialog(){
+        val dialog = CalendarDialog()
+        dialog.show(activity!!.supportFragmentManager, "CalendarDialog")
+    }
+
+    private fun showTodoLevelDialog(){
+        val dialog = TodoLevelDialog()
+        dialog.show(activity!!.supportFragmentManager, "todo_level_dialog")
+    }
+
     override fun onPause() {
         super.onPause()
         val text = binding.todoEditText.text.toString()
@@ -107,15 +117,6 @@ class EditFragment : DialogFragment() {
             addEditViewModel.updateTodo(TodoData(value.todo,
                 value.date, value.time, value.level, args.position))
         }
-    }
-
-    private fun showCalendarDialog(){
-        val dialog = CalendarDialog()
-        dialog.show(activity!!.supportFragmentManager, "CalendarDialog")
-    }
-
-    private fun showTodoLevelDialog(){
-        val dialog = TodoLevelDialog()
-        dialog.show(activity!!.supportFragmentManager, "todo_level_dialog")
+        dialogViewModel.initValues()
     }
 }
