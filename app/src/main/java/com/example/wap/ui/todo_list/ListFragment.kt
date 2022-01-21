@@ -1,6 +1,7 @@
 package com.example.wap.ui.todo_list
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -63,8 +64,8 @@ class ListFragment : Fragment(), TodoListAdapter.OnCheckedChangeListener, TodoLi
     //checkBox check
     override fun onCheck(position: Int, isChecked: Boolean, todo: TodoData) {
         // gameViewModel.updateLevel()
-
         val completedTime = SimpleDateFormat("MM월 dd일").format(System.currentTimeMillis())
+        Log.d("tag in delete",position.toString())
         todoListViewModel.deleteTodo(todo)
         completedViewModel.insertTodo(CompletedTodo(todo.todo, todo.date, todo.time, todo.level, completedTime))
     }
@@ -72,6 +73,7 @@ class ListFragment : Fragment(), TodoListAdapter.OnCheckedChangeListener, TodoLi
     override fun onCardClick(position: Int) {
         val directions: NavDirections = ListFragmentDirections.actionListFragmentToAddEditFragment(position = position)
         view!!.findNavController().navigate(directions)
+        Log.d("tag in position",position.toString())
     }
 
     private fun connectRecyclerView() {

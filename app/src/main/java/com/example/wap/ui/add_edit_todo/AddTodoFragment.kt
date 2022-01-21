@@ -43,7 +43,7 @@ class AddTodoFragment : DialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         setTodoViewModel = ViewModelProvider(requireActivity())[SetTodoViewModel::class.java]
-        addEditViewModel = ViewModelProvider(this)[AddEditViewModel::class.java]
+        addEditViewModel = ViewModelProvider(requireActivity())[AddEditViewModel::class.java]
 
         binding.doneButton.setOnClickListener{
             if(binding.addTodo.text.isNotEmpty()){

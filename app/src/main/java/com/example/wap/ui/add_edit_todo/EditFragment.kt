@@ -1,11 +1,12 @@
 package com.example.wap.ui.add_edit_todo
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
@@ -21,12 +22,16 @@ class EditFragment : DialogFragment() {
 
     private val args by navArgs<EditFragmentArgs>()
 
-    private val addEditViewModel : AddEditViewModel by viewModels()
+    private lateinit var addEditViewModel: AddEditViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        addEditViewModel = ViewModelProvider(requireActivity())[AddEditViewModel::class.java]
+
+        Log.d("Tag in Edit", args.position.toString())
 
         addEditViewModel.getTodoById(args.position)
 
