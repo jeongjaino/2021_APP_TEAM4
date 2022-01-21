@@ -1,10 +1,11 @@
-package com.example.wap.ui.add_edit_todo.dialog
+package com.example.wap.dialog
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.ViewModelProvider
 import com.example.wap.R
 import com.example.wap.databinding.DialogTodoLevelBinding
 
@@ -12,15 +13,7 @@ class TodoLevelDialog : DialogFragment() {
     
     private val binding by lazy{ DialogTodoLevelBinding.inflate(layoutInflater)}
 
-    private lateinit var listener: TodoLevelDialogListener
-
-    interface TodoLevelDialogListener{
-        fun onLevelClick(drawable: Int)
-    }
-
-    fun setOnListener(listener: TodoLevelDialogListener){
-        this.listener = listener
-    }
+    private lateinit var dialogViewModel: DialogViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,19 +32,20 @@ class TodoLevelDialog : DialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
 
+        dialogViewModel = ViewModelProvider(requireActivity())[DialogViewModel::class.java]
+
         binding.todoCard1.setOnClickListener{
-            listener.onLevelClick(R.drawable.yellow_flag)
+           dialogViewModel.setLevel(R.drawable.yellow_flag)
             dismiss()
         }
         binding.todoCard2.setOnClickListener{
-            listener.onLevelClick(R.drawable.green_flag)
+            dialogViewModel.setLevel(R.drawable.green_flag)
             dismiss()
         }
         binding.todoCard3.setOnClickListener{
-            listener.onLevelClick(R.drawable.red_flag)
+            dialogViewModel.setLevel(R.drawable.red_flag)
             dismiss()
         }
         return binding.root
     }
-    
 }

@@ -32,9 +32,28 @@ class AddEditViewModel @Inject constructor(
             todoRepository.updateTodo(todo)
         }
     }
+
     fun insertTodo(todo: TodoData){
         viewModelScope.launch {
             todoRepository.insertTodo(todo)
+        }
+    }
+
+    fun updateDate(date: String){
+        _todoList.value?.let{
+           _todoList.value = it.copy(date = date)
+        }
+    }
+
+    fun updateLevel(level: Int){
+        _todoList.value?.let{
+            _todoList.value = it.copy(level = level)
+        }
+    }
+
+    fun updateTime(time: String){
+        _todoList.value?.let{
+            _todoList.value = it.copy(time = time)
         }
     }
 }

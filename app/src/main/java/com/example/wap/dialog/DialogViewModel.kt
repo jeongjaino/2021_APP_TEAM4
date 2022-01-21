@@ -1,4 +1,4 @@
-package com.example.wap.ui.add_edit_todo
+package com.example.wap.dialog
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.example.wap.R
 import java.text.SimpleDateFormat
 
-class SetTodoViewModel: ViewModel() {
+class DialogViewModel: ViewModel() {
 
     private val _currentTime = MutableLiveData<String>()
     val currentTime : LiveData<String> = _currentTime
@@ -29,8 +29,8 @@ class SetTodoViewModel: ViewModel() {
         _currentTime.value = time
     }
 
-    fun setDrawable(drawable: Int){
-        _currentDrawable.value = drawable
+    fun setLevel(level: Int){
+        _currentDrawable.value = level
     }
 
     fun initValues(){
@@ -38,6 +38,4 @@ class SetTodoViewModel: ViewModel() {
         _currentTime.value = ""
         _currentDrawable.value = R.drawable.yellow_flag
     }
-    //선택 안했을떄
-    //livedata 초기화
 }

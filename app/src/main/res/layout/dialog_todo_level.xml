@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@android:color/transparent"
-    tools:context=".ui.add_edit_todo.dialog.TodoLevelDialog">
+    tools:context=".dialog.TodoLevelDialog">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"

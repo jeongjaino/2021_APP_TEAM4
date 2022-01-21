@@ -10,8 +10,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.Glide
+import com.example.wap.R
 import com.example.wap.databinding.FragmentEditBinding
 import com.example.wap.model.todo.TodoData
+import com.example.wap.dialog.CalendarDialog
+import com.example.wap.dialog.DialogViewModel
+import com.example.wap.dialog.TodoLevelDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -23,6 +28,7 @@ class EditFragment : DialogFragment() {
     private val args by navArgs<EditFragmentArgs>()
 
     private lateinit var addEditViewModel: AddEditViewModel
+    private lateinit var dialogViewModel: DialogViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,16 +36,30 @@ class EditFragment : DialogFragment() {
     ): View? {
 
         addEditViewModel = ViewModelProvider(requireActivity())[AddEditViewModel::class.java]
-
-        Log.d("Tag in Edit", args.position.toString())
+        dialogViewModel = ViewModelProvider(requireActivity())[DialogViewModel::class.java]
 
         addEditViewModel.getTodoById(args.position)
 
         addEditViewModel.todoList.observe(this){
             it?.let{
                 binding.todoEditText.setText(it.todo)
-                binding.addEditDeadline.text = it.date
+                binding.editDeadline.text = it.date
+                setFlag(it.level!!)
             }
+        }
+
+        dialogViewModel.currentDrawable.observe(this){
+            setFlag(it)
+            addEditViewModel.updateLevel(it)
+        }
+
+        dialogViewModel.currentDate.observe(this){
+            binding.editDeadline.text = it
+            addEditViewModel.updateDate(it)
+        }
+
+        dialogViewModel.currentTime.observe(this){
+            addEditViewModel.updateTime(it)
         }
 
         binding.backButton.setOnClickListener{
@@ -47,7 +67,32 @@ class EditFragment : DialogFragment() {
             view!!.findNavController().navigate(direction)
         }
 
+        binding.editTimeCardView.setOnClickListener{
+            showCalendarDialog()
+        }
+
+        binding.editLevelCardView.setOnClickListener{
+            showTodoLevelDialog()
+        }
         return binding.root
+    }
+
+    private fun setFlag(drawable: Int){
+        when (drawable) {
+            R.drawable.yellow_flag -> {
+                binding.editLevelText.text = "하"
+            }
+            R.drawable.green_flag -> {
+                binding.editLevelText.text = "중"
+            }
+            else -> {
+                binding.editLevelText.text = "상"
+            }
+        }
+
+        Glide.with(activity!!)
+            .load(drawable)
+            .into(binding.editFlag)
     }
 
     override fun onPause() {
@@ -62,5 +107,15 @@ class EditFragment : DialogFragment() {
             addEditViewModel.updateTodo(TodoData(value.todo,
                 value.date, value.time, value.level, args.position))
         }
+    }
+
+    private fun showCalendarDialog(){
+        val dialog = CalendarDialog()
+        dialog.show(activity!!.supportFragmentManager, "CalendarDialog")
+    }
+
+    private fun showTodoLevelDialog(){
+        val dialog = TodoLevelDialog()
+        dialog.show(activity!!.supportFragmentManager, "todo_level_dialog")
     }
 }

@@ -1,4 +1,4 @@
-package com.example.wap.ui.add_edit_todo.dialog
+package com.example.wap.dialog
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,43 +7,31 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.wap.databinding.DialogTimePickerBinding
-import com.example.wap.ui.add_edit_todo.SetTodoViewModel
 
 class TimePickerDialog : DialogFragment() {
 
     private val binding by lazy{ DialogTimePickerBinding.inflate(layoutInflater)}
 
-    private lateinit var listener: TimePickerListener
-
-    private lateinit var setTodoViewModel: SetTodoViewModel
-
-    interface TimePickerListener{
-        fun onPositiveButtonClick(timeDeadLine: String)
-    }
-
-    fun setOnListener(listener: TimePickerListener){
-        this.listener = listener
-    }
+    private lateinit var dialogViewModel: DialogViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        setTodoViewModel = ViewModelProvider(requireActivity())[SetTodoViewModel::class.java]
+        dialogViewModel = ViewModelProvider(requireActivity())[DialogViewModel::class.java]
 
         binding.timePicker.setOnTimeChangedListener { picker, hour, min ->
-            setTodoViewModel.setTime(setTime(hour, min))
+            dialogViewModel.setTime(setTime(hour, min))
         }
 
         binding.timePickerYesButton.setOnClickListener{
-            setTodoViewModel.currentTime.value?.let{ value ->
-                listener.onPositiveButtonClick(value)
-            }
             dismiss()
         }
 
         binding.timePickerNoButton.setOnClickListener{
+            //취소하면 이전의 설정했던 값 초기화
+            dialogViewModel.setTime("")
             dismiss()
         }
 

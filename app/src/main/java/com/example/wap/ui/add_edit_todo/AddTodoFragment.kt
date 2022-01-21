@@ -11,8 +11,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.wap.R
 import com.example.wap.databinding.FragmentAddTodoBinding
-import com.example.wap.ui.add_edit_todo.dialog.CalendarDialog
-import com.example.wap.ui.add_edit_todo.dialog.TodoLevelDialog
+import com.example.wap.dialog.CalendarDialog
+import com.example.wap.dialog.DialogViewModel
+import com.example.wap.dialog.TodoLevelDialog
 import com.example.wap.model.todo.TodoData
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -21,7 +22,7 @@ class AddTodoFragment : DialogFragment() {
 
     private val binding by lazy{ FragmentAddTodoBinding.inflate(layoutInflater)}
 
-    lateinit var setTodoViewModel: SetTodoViewModel
+    lateinit var dialogViewModel: DialogViewModel
 
     lateinit var addEditViewModel: AddEditViewModel
 
@@ -42,7 +43,7 @@ class AddTodoFragment : DialogFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        setTodoViewModel = ViewModelProvider(requireActivity())[SetTodoViewModel::class.java]
+        dialogViewModel = ViewModelProvider(requireActivity())[DialogViewModel::class.java]
         addEditViewModel = ViewModelProvider(requireActivity())[AddEditViewModel::class.java]
 
         binding.doneButton.setOnClickListener{
@@ -60,7 +61,7 @@ class AddTodoFragment : DialogFragment() {
             showTodoLevelDialog()
         }
 
-        setTodoViewModel.currentDrawable.observe(this){
+        dialogViewModel.currentDrawable.observe(this){
             Glide.with(activity!!)
                 .load(it)
                 .into(binding.flagButton)
@@ -70,13 +71,13 @@ class AddTodoFragment : DialogFragment() {
     }
     private fun saveTodo() {
         val todoText = binding.addTodo.text.toString()
-        val date = setTodoViewModel.currentDate.value
-        val time = setTodoViewModel.currentTime.value
-        val drawable = setTodoViewModel.currentDrawable.value
+        val date = dialogViewModel.currentDate.value
+        val time = dialogViewModel.currentTime.value
+        val drawable = dialogViewModel.currentDrawable.value
 
         addEditViewModel.insertTodo(TodoData(todoText, date, time, drawable))
         binding.addTodo.text = null
-        setTodoViewModel.initValues()
+        dialogViewModel.initValues()
 
         Toast.makeText(requireContext(), "할 일이 추가되었습니다!", Toast.LENGTH_LONG).show()
     }
@@ -87,14 +88,6 @@ class AddTodoFragment : DialogFragment() {
     }
     private fun showTodoLevelDialog(){
         val dialog = TodoLevelDialog()
-        dialog.setOnListener(object: TodoLevelDialog.TodoLevelDialogListener{
-            override fun onLevelClick(drawable: Int) {
-                Glide.with(activity!!)
-                    .load(drawable)
-                    .into(binding.flagButton)
-                setTodoViewModel.setDrawable(drawable)
-            }
-        })
         dialog.show(activity!!.supportFragmentManager, "todo_level_dialog")
     }
 }
