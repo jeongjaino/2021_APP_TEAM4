@@ -34,7 +34,7 @@ class CompletedListAdapter(
         fun setCompletedTodo(list: CompletedTodo){
             binding.completedItemTodo.text = list.toDo
             binding.completedItemTodo.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
-            binding.completedItemDeadLine.text = list.deadline
+            binding.completedItemDeadLine.text = list.date
             binding.completedTime.text = list.completedTime
         }
 

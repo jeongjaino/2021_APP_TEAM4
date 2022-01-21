@@ -1,20 +1,20 @@
 package com.example.wap.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.wap.R
 import com.example.wap.databinding.ItemTodoListBinding
 import com.example.wap.model.todo.TodoData
 
-class ListAdapter(
+class TodoListAdapter(
     private val listener: OnCheckedChangeListener,
     private val clickListener: OnClickListener,
     private val dataset: List<TodoData>,
-) : RecyclerView.Adapter<ListAdapter.ListViewHolder>() {
+) : RecyclerView.Adapter<TodoListAdapter.ListViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
        val binding =
@@ -39,8 +39,13 @@ class ListAdapter(
 
         lateinit var currentTodo: TodoData
         fun setTodo(todo: TodoData){
-            binding.itemTodo.text = todo.toDo
-            binding.itemDeadLine.text = todo.deadline
+            binding.itemTodo.text = todo.todo
+            binding.itemDeadLine.text = todo.date + todo.time
+
+            Glide.with(binding.imageView2)
+                .load(todo.level)
+                .into(binding.imageView2)
+
             this.currentTodo = todo
         }
 

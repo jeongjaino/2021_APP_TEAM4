@@ -1,11 +1,13 @@
-package com.example.wap.dialog
+package com.example.wap.ui.add_edit_todo.dialog
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.ViewModelProvider
 import com.example.wap.databinding.DialogTimePickerBinding
+import com.example.wap.ui.add_edit_todo.SetTodoViewModel
 
 class TimePickerDialog : DialogFragment() {
 
@@ -13,7 +15,7 @@ class TimePickerDialog : DialogFragment() {
 
     private lateinit var listener: TimePickerListener
 
-    private var timeDeadLine: String = ""
+    private lateinit var setTodoViewModel: SetTodoViewModel
 
     interface TimePickerListener{
         fun onPositiveButtonClick(timeDeadLine: String)
@@ -28,16 +30,23 @@ class TimePickerDialog : DialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
 
+        setTodoViewModel = ViewModelProvider(requireActivity())[SetTodoViewModel::class.java]
+
         binding.timePicker.setOnTimeChangedListener { picker, hour, min ->
-            timeDeadLine = setTime(picker.is24HourView, hour, min)
+            setTodoViewModel.setTime(setTime(picker.is24HourView, hour, min))
         }
+
         binding.timePickerYesButton.setOnClickListener{
-            listener.onPositiveButtonClick(timeDeadLine)
+            setTodoViewModel.currentTime.value?.let{ value ->
+                listener.onPositiveButtonClick(value)
+            }
             dismiss()
         }
+
         binding.timePickerNoButton.setOnClickListener{
             dismiss()
         }
+
         return binding.root
     }
 

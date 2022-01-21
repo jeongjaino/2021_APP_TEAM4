@@ -8,59 +8,6 @@
     tools:context=".ui.todo_list.ListFragment">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/todo_cardView"
-        android:layout_width="match_parent"
-        android:layout_height="130dp"
-        app:cardBackgroundColor="#F8FAFF"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:padding="10dp">
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/done_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:src="@drawable/ic_baseline_edit_24"
-                app:layout_constraintEnd_toEndOf="parent"
-                tools:layout_editor_absoluteY="10dp" />
-
-            <EditText
-                android:id="@+id/add_todo"
-                android:layout_width="0dp"
-                android:layout_height="60dp"
-                android:layout_marginBottom="60dp"
-                android:layout_weight="5"
-                android:backgroundTint="@android:color/transparent"
-                android:hint="여기에 할 일 입력 "
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/done_button"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageButton
-                android:id="@+id/calendar_button"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginStart="30dp"
-                android:background="@android:color/transparent"
-                android:scaleType="fitXY"
-                android:src="@drawable/schedule"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/add_todo" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

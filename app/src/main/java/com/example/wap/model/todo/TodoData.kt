@@ -5,8 +5,9 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class TodoData(
-    val toDo: String?,
-    val deadline: String?,
-    val isDone: Boolean,
+    val todo: String?,
+    val date: String?,
+    val time: String?,
+    val level: Int?,
     @PrimaryKey val id: Int? = null
 )

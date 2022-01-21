@@ -1,7 +1,6 @@
 package com.example.wap.ui.add_edit_todo
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,17 +9,17 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
-import com.example.wap.databinding.FragmentAddEditBinding
+import com.example.wap.databinding.FragmentEditBinding
 import com.example.wap.model.todo.TodoData
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class AddEditFragment : DialogFragment() {
+class EditFragment : DialogFragment() {
 
-    private val binding by lazy{FragmentAddEditBinding.inflate(layoutInflater)}
+    private val binding by lazy{FragmentEditBinding.inflate(layoutInflater)}
 
-    private val args by navArgs<AddEditFragmentArgs>()
+    private val args by navArgs<EditFragmentArgs>()
 
     private val addEditViewModel : AddEditViewModel by viewModels()
 
@@ -33,30 +32,30 @@ class AddEditFragment : DialogFragment() {
 
         addEditViewModel.todoList.observe(this){
             it?.let{
-                Log.d("tag", "#122")
-                binding.todoEditText.setText(it.toDo)
-                binding.addEditDeadline.text = it.deadline
+                binding.todoEditText.setText(it.todo)
+                binding.addEditDeadline.text = it.date
             }
         }
 
         binding.backButton.setOnClickListener{
-
-            val direction: NavDirections = AddEditFragmentDirections.actionAddEditFragmentToListFragment()
+            val direction: NavDirections = EditFragmentDirections.actionAddEditFragmentToListFragment()
             view!!.findNavController().navigate(direction)
         }
+
         return binding.root
     }
 
     override fun onPause() {
         super.onPause()
         val text = binding.todoEditText.text.toString()
+        val value = addEditViewModel.todoList.value!!
         if (text.isNotEmpty()) {
             addEditViewModel.updateTodo(TodoData(text,
-                addEditViewModel.todoList.value!!.deadline, false, args.position))
+                value.date, value.time, value.level, args.position))
         }
         else{
-            addEditViewModel.updateTodo(TodoData(addEditViewModel.todoList.value!!.toDo,
-                addEditViewModel.todoList.value!!.deadline, false, args.position))
+            addEditViewModel.updateTodo(TodoData(value.todo,
+                value.date, value.time, value.level, args.position))
         }
     }
 }

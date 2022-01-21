@@ -27,12 +27,6 @@ class TodoListViewModel @Inject constructor(
         }
     }
 
-    fun insertTodo(todo: TodoData){
-        viewModelScope.launch {
-            todoRepository.insertTodo(todo)
-        }
-    }
-
     fun deleteTodo(todo: TodoData){
         viewModelScope.launch {
             todoRepository.deleteTodo(todo)

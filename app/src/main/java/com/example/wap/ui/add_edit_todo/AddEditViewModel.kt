@@ -32,4 +32,9 @@ class AddEditViewModel @Inject constructor(
             todoRepository.updateTodo(todo)
         }
     }
+    fun insertTodo(todo: TodoData){
+        viewModelScope.launch {
+            todoRepository.insertTodo(todo)
+        }
+    }
 }

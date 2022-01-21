@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".dialog.TimePickerDialog">
+    tools:context=".ui.add_edit_todo.dialog.TimePickerDialog">
 
     <TimePicker
         android:id="@+id/timePicker"
