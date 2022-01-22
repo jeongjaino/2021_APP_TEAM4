@@ -23,9 +23,13 @@
 
     <fragment
         android:id="@+id/gameFragment"
-        android:name="com.example.wap.ui.game.GameFragment"
+        android:name="com.example.wap.ui.character.CharacterFragment"
         android:label="fragment_game"
-        tools:layout="@layout/fragment_game" />
+        tools:layout="@layout/fragment_character" >
+        <action
+            android:id="@+id/action_gameFragment_to_touchGameFragment"
+            app:destination="@id/touchGameFragment" />
+    </fragment>
     <fragment
         android:id="@+id/addEditFragment"
         android:name="com.example.wap.ui.add_edit_todo.EditFragment"
@@ -46,5 +50,14 @@
         <action
             android:id="@+id/action_completedListFragment_to_listFragment"
             app:destination="@id/listFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/touchGameFragment"
+        android:name="com.example.wap.ui.mini_game.TouchGameFragment"
+        android:label="fragment_touch_game"
+        tools:layout="@layout/fragment_touch_game" >
+        <action
+            android:id="@+id/action_touchGameFragment_to_gameFragment"
+            app:destination="@id/gameFragment" />
     </fragment>
 </navigation>

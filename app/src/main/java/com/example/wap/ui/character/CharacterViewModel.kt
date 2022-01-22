@@ -1,18 +1,20 @@
-package com.example.wap.ui.game
+package com.example.wap.ui.character
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.wap.model.game.GameData
-import com.example.wap.model.game.GameRepository
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.wap.R
+import com.example.wap.model.character.GameData
+import com.example.wap.model.character.GameRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class GameViewModel @Inject constructor(
+class CharacterViewModel @Inject constructor(
     private val gameRepository: GameRepository
 ): ViewModel() {
 
@@ -29,18 +31,25 @@ class GameViewModel @Inject constructor(
             gameRepository.getCharacterById(1)?.let{
                 _information.value = it
                 Log.d("tag",it.level.toString() + it.id.toString())
-
             }
         }
     }
 
-    fun updateLevel() {
+    fun updateLevel(todoLevel: Int) {
         viewModelScope.launch {
-            gameRepository.updateCharacter(levelUp())
+            gameRepository.updateCharacter(levelUp(todoLevel))
         }
     }
 
-    private fun levelUp() : GameData {
+    fun updateGold(gold: Int){
+        viewModelScope.launch {
+            val totalGold = _information.value!!.gold + gold
+            _information.value = _information.value!!.copy(gold = totalGold)
+            gameRepository.updateCharacter(_information.value!!)
+        }
+    }
+
+    private fun levelUp(level: Int) : GameData {
 
         val information = _information.value!!
 
@@ -61,6 +70,18 @@ class GameViewModel @Inject constructor(
                 nexp += 5
             }
         }
+        when(level){
+            R.drawable.yellow_flag ->{
+                nexp += 5
+            }
+            R.drawable.green_flag ->{
+                nexp += 10
+            }
+            R.drawable.red_flag ->{
+                nexp += 20
+            }
+        }
+
         if (nexp >= 100) {
             nlevel += 1
             nexp -= 100

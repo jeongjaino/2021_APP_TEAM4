@@ -2,12 +2,11 @@ package com.example.wap.di
 
 import android.app.Application
 import androidx.room.Room
-import com.example.wap.App4
 import com.example.wap.model.App4Database
 import com.example.wap.model.completed.CompletedRepository
 import com.example.wap.model.completed.CompletedRepositoryImpl
-import com.example.wap.model.game.GameRepository
-import com.example.wap.model.game.GameRepositoryImpl
+import com.example.wap.model.character.GameRepository
+import com.example.wap.model.character.GameRepositoryImpl
 import com.example.wap.model.todo.TodoRepository
 import com.example.wap.model.todo.TodoRepositoryImpl
 import dagger.Module

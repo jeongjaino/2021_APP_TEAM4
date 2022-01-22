@@ -1,4 +1,4 @@
-package com.example.wap.model.game
+package com.example.wap.model.character
 
 class GameRepositoryImpl(
     private val dao: GameDao

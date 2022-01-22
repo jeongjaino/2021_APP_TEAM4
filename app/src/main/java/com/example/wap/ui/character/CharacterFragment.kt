@@ -1,4 +1,4 @@
-package com.example.wap.ui.game
+package com.example.wap.ui.character
 
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
@@ -14,16 +14,17 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.animation.addListener
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavDirections
+import androidx.navigation.findNavController
 import com.example.wap.R
-import com.example.wap.databinding.FragmentGameBinding
+import com.example.wap.databinding.FragmentCharacterBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class GameFragment : Fragment() {
+class CharacterFragment : Fragment() {
 
-    private lateinit var binding: FragmentGameBinding
+    private val binding by lazy{ FragmentCharacterBinding.inflate(layoutInflater)}
 
     private var drawable: AnimationDrawable? = null // 펫 애니메이션 제어변수
     private var curPosX: Float = 0f // 애니메이션 방향을 위해 x위치 저장변수
@@ -31,7 +32,7 @@ class GameFragment : Fragment() {
     var handler = Handler(Looper.getMainLooper())
     var runnable = Runnable {}
 
-    lateinit var gameViewModel: GameViewModel
+    lateinit var characterViewModel: CharacterViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,14 +40,17 @@ class GameFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        binding = FragmentGameBinding.inflate(inflater, container, false)
+        characterViewModel = ViewModelProvider(requireActivity())[CharacterViewModel::class.java]
 
-        gameViewModel = ViewModelProvider(requireActivity())[GameViewModel::class.java]
-
-        gameViewModel.information.observe(this) {
+        characterViewModel.information.observe(this) {
             binding.petLevelTextView.text = "Lv ${it.level}"
             binding.gameProgressbar.progress = it.exp
             binding.goldText.text = it.gold.toString() + "G"
+        }
+
+        binding.gameCardView.setOnClickListener{
+            val directions: NavDirections = CharacterFragmentDirections.actionGameFragmentToTouchGameFragment()
+            view!!.findNavController().navigate(directions)
         }
 
         return binding.root

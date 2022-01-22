@@ -18,7 +18,7 @@ import com.example.wap.model.todo.TodoData
 import com.example.wap.model.completed.CompletedTodo
 import com.example.wap.ui.add_edit_todo.AddTodoFragment
 import com.example.wap.ui.completed_todo_list.CompletedViewModel
-import com.example.wap.ui.game.GameViewModel
+import com.example.wap.ui.character.CharacterViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.*
@@ -29,7 +29,7 @@ class ListFragment : Fragment(), TodoListAdapter.OnCheckedChangeListener, TodoLi
     private val binding by lazy{ FragmentTodoListBinding.inflate(layoutInflater)}
     private lateinit var recyclerView: RecyclerView
 
-     lateinit var gameViewModel: GameViewModel
+     lateinit var characterViewModel: CharacterViewModel
 
      lateinit var completedViewModel: CompletedViewModel
 
@@ -42,7 +42,7 @@ class ListFragment : Fragment(), TodoListAdapter.OnCheckedChangeListener, TodoLi
 
         connectRecyclerView()
 
-        gameViewModel = ViewModelProvider(requireActivity())[GameViewModel::class.java]
+        characterViewModel = ViewModelProvider(requireActivity())[CharacterViewModel::class.java]
         completedViewModel = ViewModelProvider(this)[CompletedViewModel::class.java]
 
         todoListViewModel.todoList.observe(this){ value ->
@@ -63,10 +63,10 @@ class ListFragment : Fragment(), TodoListAdapter.OnCheckedChangeListener, TodoLi
     }
     //checkBox check
     override fun onCheck(position: Int, isChecked: Boolean, todo: TodoData) {
-        val completedTime = SimpleDateFormat("MM월 dd일").format(System.currentTimeMillis())
         todoListViewModel.deleteTodo(todo)
+        val completedTime = SimpleDateFormat("MM월 dd일").format(System.currentTimeMillis())
         completedViewModel.insertTodo(CompletedTodo(todo.todo, todo.date, todo.time, todo.level, completedTime))
-        gameViewModel.updateLevel()
+        characterViewModel.updateLevel(todo.level!!)
     }
 
     override fun onCardClick(position: Int) {

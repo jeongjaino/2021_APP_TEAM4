@@ -1,12 +1,11 @@
 package com.example.wap.model
 
 import androidx.room.Database
-import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.wap.model.completed.CompletedDao
 import com.example.wap.model.completed.CompletedTodo
-import com.example.wap.model.game.GameDao
-import com.example.wap.model.game.GameData
+import com.example.wap.model.character.GameDao
+import com.example.wap.model.character.GameData
 import com.example.wap.model.todo.TodoDao
 import com.example.wap.model.todo.TodoData
 

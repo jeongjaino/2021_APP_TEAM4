@@ -1,5 +1,4 @@
-package com.example.wap.model.game
-import kotlinx.coroutines.flow.Flow
+package com.example.wap.model.character
 
 interface GameRepository {
 

@@ -1,8 +1,6 @@
-package com.example.wap.model.game
+package com.example.wap.model.character
 
 import androidx.room.*
-import com.example.wap.model.todo.TodoData
-import kotlinx.coroutines.flow.Flow
 
 
 @Dao

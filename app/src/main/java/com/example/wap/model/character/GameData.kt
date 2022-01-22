@@ -1,4 +1,4 @@
-package com.example.wap.model.game
+package com.example.wap.model.character
 
 import androidx.room.PrimaryKey
 import androidx.room.Entity

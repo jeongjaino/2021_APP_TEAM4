@@ -9,7 +9,4 @@
         android:duration="@integer/pet_animation_duration"/>
     <item android:drawable="@drawable/pet5"
         android:duration="@integer/pet_animation_duration"/>
-
-
-
 </animation-list>
