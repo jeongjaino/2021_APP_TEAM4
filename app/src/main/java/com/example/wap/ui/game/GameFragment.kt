@@ -22,7 +22,9 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class GameFragment : Fragment() {
-    private lateinit var gameBinding: FragmentGameBinding
+
+    private lateinit var binding: FragmentGameBinding
+
     private var drawable: AnimationDrawable? = null // 펫 애니메이션 제어변수
     private var curPosX: Float = 0f // 애니메이션 방향을 위해 x위치 저장변수
 
@@ -37,28 +39,24 @@ class GameFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        gameBinding = FragmentGameBinding.inflate(inflater, container, false)
+        binding = FragmentGameBinding.inflate(inflater, container, false)
 
-        gameViewModel = ViewModelProvider(this)[GameViewModel::class.java]
+        gameViewModel = ViewModelProvider(requireActivity())[GameViewModel::class.java]
 
-        gameViewModel.level.observe(viewLifecycleOwner, Observer {
-            gameBinding.petLevelTextView.text = "Lv ${it.level}"
-            gameBinding.gameProgressbar.progress = it.exp
-        })
+        gameViewModel.information.observe(this) {
+            binding.petLevelTextView.text = "Lv ${it.level}"
+            binding.gameProgressbar.progress = it.exp
+            binding.goldText.text = it.gold.toString() + "G"
+        }
 
-        return gameBinding.root
-    }
-
-    override fun onResume() {
-        super.onResume()
-        //gameViewModel.loadLevel()
+        return binding.root
     }
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initPet(gameBinding.petImageView)
-        gameBinding.petImageView.setOnTouchListener { view, motionEvent ->
+        initPet(binding.petImageView)
+        binding.petImageView.setOnTouchListener { view, motionEvent ->
             when (motionEvent.action) {
                 MotionEvent.ACTION_DOWN -> {
                     Log.d("GameFragment", "touch")
@@ -101,13 +99,13 @@ class GameFragment : Fragment() {
         when (state) {
             "walk" -> {
                 // 애니메이션을 변경하고 (현재포지션-다음포지션)으로 이동방향을 받아 이미지 반전
-                gameBinding.petImageView.setBackgroundResource(R.drawable.pet_walk_animation)
-                gameBinding.petImageView.scaleX = if (curPosX - nextPosX > 0) 1f else -1f
+                binding.petImageView.setBackgroundResource(R.drawable.pet_walk_animation)
+                binding.petImageView.scaleX = if (curPosX - nextPosX > 0) 1f else -1f
                 curPosX = nextPosX // 다음포지션값을 현재포지션으로
             }
-            "stop" -> gameBinding.petImageView.setBackgroundResource(R.drawable.pet_idle_animation)
+            "stop" -> binding.petImageView.setBackgroundResource(R.drawable.pet_idle_animation)
         }
-        drawable = gameBinding.petImageView.background as AnimationDrawable
+        drawable = binding.petImageView.background as AnimationDrawable
         drawable?.start()
     }
 }

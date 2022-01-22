@@ -1,7 +1,5 @@
 package com.example.wap.model.game
 
-import kotlinx.coroutines.flow.Flow
-
 class GameRepositoryImpl(
     private val dao: GameDao
 ): GameRepository {
@@ -14,11 +12,7 @@ class GameRepositoryImpl(
         dao.updateCharacter(game)
     }
 
-    override fun getCharacters(): Flow<List<GameData>> {
-       return dao.getCharacters()
-    }
-
-    override suspend fun getCharacterById(id: Int): GameData? {
+    override suspend fun getCharacterById(id: Int): GameData?{
         return dao.getCharacterById(id)
     }
 }

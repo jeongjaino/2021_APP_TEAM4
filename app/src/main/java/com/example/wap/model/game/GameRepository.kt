@@ -8,6 +8,4 @@ interface GameRepository {
     suspend fun updateCharacter(game: GameData)
 
     suspend fun getCharacterById(id: Int): GameData?
-
-    fun getCharacters(): Flow<List<GameData>>
 }

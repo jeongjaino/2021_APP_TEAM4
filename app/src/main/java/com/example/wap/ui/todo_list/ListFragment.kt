@@ -42,7 +42,7 @@ class ListFragment : Fragment(), TodoListAdapter.OnCheckedChangeListener, TodoLi
 
         connectRecyclerView()
 
-        gameViewModel = ViewModelProvider(this)[GameViewModel::class.java]
+        gameViewModel = ViewModelProvider(requireActivity())[GameViewModel::class.java]
         completedViewModel = ViewModelProvider(this)[CompletedViewModel::class.java]
 
         todoListViewModel.todoList.observe(this){ value ->
@@ -63,11 +63,10 @@ class ListFragment : Fragment(), TodoListAdapter.OnCheckedChangeListener, TodoLi
     }
     //checkBox check
     override fun onCheck(position: Int, isChecked: Boolean, todo: TodoData) {
-        // gameViewModel.updateLevel()
         val completedTime = SimpleDateFormat("MM월 dd일").format(System.currentTimeMillis())
-        Log.d("tag in delete",position.toString())
         todoListViewModel.deleteTodo(todo)
         completedViewModel.insertTodo(CompletedTodo(todo.todo, todo.date, todo.time, todo.level, completedTime))
+        gameViewModel.updateLevel()
     }
 
     override fun onCardClick(position: Int) {

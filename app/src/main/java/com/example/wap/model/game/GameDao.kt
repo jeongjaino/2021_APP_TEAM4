@@ -14,10 +14,7 @@ interface GameDao {
     @Update
     suspend fun updateCharacter(game: GameData)
 
-    @Query("SELECT * FROM GameData")
-    fun getCharacters(): Flow<List<GameData>>
-
     @Query("SELECT * FROM GameData WHERE id = :id")
-    fun getCharacterById(id: Int): GameData?
+    suspend fun getCharacterById(id: Int): GameData?
 
 }
