@@ -2,8 +2,8 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- 체크박스 해제 상태 -->
     <item android:state_checked="false"
-        android:drawable="@drawable/oval"/>
+        android:drawable="@drawable/ic_baseline_panorama_fish_eye_24"/>
     <!-- 체크박스 선택 상태 -->
     <item android:state_checked="true"
-        android:drawable="@drawable/checked2"/>
+        android:drawable="@drawable/ic_baseline_check_circle_outline_24"/>
 </selector>
