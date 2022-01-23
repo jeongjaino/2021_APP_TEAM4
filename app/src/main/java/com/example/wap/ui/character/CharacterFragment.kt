@@ -19,6 +19,7 @@ import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
 import com.example.wap.R
 import com.example.wap.databinding.FragmentCharacterBinding
+import com.example.wap.dialog.character.SelectGameDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -49,8 +50,7 @@ class CharacterFragment : Fragment() {
         }
 
         binding.gameCardView.setOnClickListener{
-            val directions: NavDirections = CharacterFragmentDirections.actionGameFragmentToTouchGameFragment()
-            view!!.findNavController().navigate(directions)
+            showSelectDialog()
         }
 
         return binding.root
@@ -111,5 +111,19 @@ class CharacterFragment : Fragment() {
         }
         drawable = binding.petImageView.background as AnimationDrawable
         drawable?.start()
+    }
+    private fun showSelectDialog(){
+        val dialog = SelectGameDialog()
+        dialog.setListener(object: SelectGameDialog.SelectListener{
+            override fun miniGame1Click() {
+                val directions: NavDirections = CharacterFragmentDirections.actionGameFragmentToTouchGameFragment()
+                view!!.findNavController().navigate(directions)
+            }
+            override fun miniGame2Click() {
+                val directions: NavDirections = CharacterFragmentDirections.actionGameFragmentToShakeGameFragment()
+                view!!.findNavController().navigate(directions)
+            }
+        })
+        dialog.show(activity!!.supportFragmentManager, "selectGameDialog")
     }
 }

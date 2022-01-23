@@ -1,6 +1,7 @@
 package com.example.wap.ui.mini_game
 
 import android.animation.ObjectAnimator
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -8,9 +9,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.activity.OnBackPressedCallback
 import androidx.core.animation.addListener
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavDirections
+import androidx.navigation.findNavController
 import com.example.wap.databinding.FragmentTouchGameBinding
+import com.example.wap.dialog.character.SaveGameDialog
 import com.example.wap.ui.character.CharacterViewModel
 
 class TouchGameFragment : Fragment() {
@@ -20,6 +25,27 @@ class TouchGameFragment : Fragment() {
     private lateinit var characterViewModel: CharacterViewModel
 
     private var gold = 0
+
+    private lateinit var callback: OnBackPressedCallback
+
+    //뒤로 가기 눌렀을때 callback 받아서 처리
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        callback = object: OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                val dialog = SaveGameDialog()
+                dialog.setListener(object: SaveGameDialog.SaveDialogListener{
+                    override fun onPositiveClick() {
+                        characterViewModel.updateGold(gold)
+                        val direction: NavDirections = TouchGameFragmentDirections.actionTouchGameFragmentToGameFragment()
+                        view!!.findNavController().navigate(direction)
+                    }
+                })
+                dialog.show(activity!!.supportFragmentManager, "saveDialog")
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,11 +84,8 @@ class TouchGameFragment : Fragment() {
         }
     }
 
-
-    override fun onPause() {
-        super.onPause()
-        //dialog 하나 띄우면 좋을듯 게임을 종료하시겠습니까    ?
-        // 클릭하면 그때 update하고
-        characterViewModel.updateGold(gold)
+    override fun onDetach() {
+        super.onDetach()
+        callback.remove()
     }
 }

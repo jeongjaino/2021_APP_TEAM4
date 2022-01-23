@@ -29,6 +29,9 @@
         <action
             android:id="@+id/action_gameFragment_to_touchGameFragment"
             app:destination="@id/touchGameFragment" />
+        <action
+            android:id="@+id/action_gameFragment_to_shakeGameFragment"
+            app:destination="@id/shakeGameFragment" />
     </fragment>
     <fragment
         android:id="@+id/addEditFragment"
@@ -58,6 +61,15 @@
         tools:layout="@layout/fragment_touch_game" >
         <action
             android:id="@+id/action_touchGameFragment_to_gameFragment"
+            app:destination="@id/gameFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/shakeGameFragment"
+        android:name="com.example.wap.ui.mini_game.ShakeGameFragment"
+        android:label="fragment_shake_game"
+        tools:layout="@layout/fragment_shake_game" >
+        <action
+            android:id="@+id/action_shakeGameFragment_to_gameFragment"
             app:destination="@id/gameFragment" />
     </fragment>
 </navigation>

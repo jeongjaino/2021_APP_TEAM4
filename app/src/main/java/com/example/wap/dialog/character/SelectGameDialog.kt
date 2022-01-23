@@ -13,6 +13,13 @@ class SelectGameDialog : DialogFragment() {
 
     private val binding by lazy{ DialogSelectGameBinding.inflate(layoutInflater)}
 
+    override fun onStart() {
+        super.onStart()
+        val width = ViewGroup.LayoutParams.MATCH_PARENT
+        val height = ViewGroup.LayoutParams.WRAP_CONTENT
+        dialog?.window?.setLayout(width, height)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -36,7 +43,7 @@ class SelectGameDialog : DialogFragment() {
 
     private lateinit var listener: SelectListener
 
-    private fun setListener(listener: SelectListener){
+    fun setListener(listener: SelectListener){
         this.listener = listener
     }
 }
