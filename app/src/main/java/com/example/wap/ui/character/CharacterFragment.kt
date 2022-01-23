@@ -85,7 +85,7 @@ class CharacterFragment : Fragment() {
     }
 
     //펫의 위치를 이동하는 함수
-    private fun movePet(pet: ImageView) {
+        private fun movePet(pet: ImageView) {
         val nextPosX = (-300..300).random().toFloat() //X축으로 랜덤위치로 움직임
 
         ObjectAnimator.ofFloat(pet, "translationX", nextPosX).apply {
