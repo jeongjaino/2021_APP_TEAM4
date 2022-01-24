@@ -3,7 +3,7 @@
     package="com.example.wap">
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.INTERNET"/>
-
+    <uses-feature android:name="android.hardware.sensor.accelerometer" android:required="true"/>
     <application
         android:name=".App4"
         android:allowBackup="true"
