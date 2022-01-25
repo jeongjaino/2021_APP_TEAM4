@@ -6,6 +6,10 @@
         android:icon="@drawable/bell"
         android:title="할 일 " />
     <item
+        android:id="@+id/completedListFragment"
+        android:icon="@drawable/bell"
+        android:title="완료된 목록"/>
+    <item
         android:id="@+id/gameFragment"
         android:icon="@drawable/bell"
         android:title="캐릭터" />

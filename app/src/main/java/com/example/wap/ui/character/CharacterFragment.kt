@@ -53,6 +53,10 @@ class CharacterFragment : Fragment() {
             showSelectDialog()
         }
 
+        binding.storeCardView.setOnClickListener{
+
+        }
+
         return binding.root
     }
 

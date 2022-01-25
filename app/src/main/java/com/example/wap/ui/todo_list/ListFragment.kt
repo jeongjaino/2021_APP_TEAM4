@@ -55,15 +55,6 @@ class ListFragment : Fragment(), TodoListAdapter.OnCheckedChangeListener, TodoLi
             dialog.show(activity!!.supportFragmentManager, "todo_level_dialog")
         }
 
-        binding.navCompletedText.setOnClickListener{
-            val directions: NavDirections = ListFragmentDirections.actionListFragmentToCompletedListFragment()
-            view!!.findNavController().navigate(directions)
-        }
-
-        binding.goCharacterButton.setOnClickListener{
-            val directions: NavDirections = ListFragmentDirections.actionListFragmentToGameFragment()
-            view!!.findNavController().navigate(directions)
-        }
         return binding.root
     }
     //checkBox check
